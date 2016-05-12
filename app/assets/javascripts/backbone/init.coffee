@@ -4,7 +4,9 @@ window.GameGui =
     Routers: {}
     Views: {
         Base: {
-            Control: {}
+            Control: {
+                Game: {}
+            }
         }
     }
 

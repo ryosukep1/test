@@ -1,0 +1,16 @@
+.game_play_panel_blk {
+    position: absolute;
+    top: 20px;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+    border: 1px solid #0000FF;
+    width: 550px;
+    height: 450px;
+
+    .now_loading_blk {
+        position: absolute;
+        width: 550px;
+        height: 450px;
+    }
+}

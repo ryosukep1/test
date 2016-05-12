@@ -16,6 +16,12 @@ class GameGui.Views.Base.ControlView extends Backbone.View
             'click #logout_btn': 'execLogout'
             'click #game_btn': 'activateGamePanel'
         })
+        
+        # 対戦のエントリー中断報告を監視する
+        @listenTo App.mediator, 'abort:game:entry',  =>
+
+            # マイページパネルを活性化する
+            @activateMyPagePanel()
     
     # パネルを破棄する
     close: ->
@@ -25,13 +31,17 @@ class GameGui.Views.Base.ControlView extends Backbone.View
         @closeMypagePanel()
         
         # 対戦パネルを破棄する
-        if @gameView?
-            @gameView.close()
-            @gameView = null
+        @closeGamePanel()
         
         # コントロールパネルを破棄する
         @remove()
-        
+    
+    # 対戦パネルを破棄する
+    closeGamePanel: ->
+        if @gameView?
+            @gameView.close()
+            @gameView = null
+    
     # マイページパネルを破棄する
     closeMypagePanel: ->
         if @mypageView?
@@ -49,10 +59,23 @@ class GameGui.Views.Base.ControlView extends Backbone.View
             @activateGamePanel()
         else
             # マイページパネルを開く
-            unless @mypageView?
-                @$el.append '<div id="mypage_panel" class="mypage_panel_blk"></div>'
-                @mypageView = new GameGui.Views.Base.Control.MypageView(@token)
-                @mypageView.renderInit()
+            @activateMyPagePanel()
+    
+    # マイページパネルを活性化する
+    activateMyPagePanel: ->
+        
+        # 対戦パネルを閉じる
+        @closeGamePanel()
+        
+        # マイページパネルを開く
+        unless @mypageView?
+            @$el.append '<div id="mypage_panel" class="mypage_panel_blk"></div>'
+            @mypageView = new GameGui.Views.Base.Control.MypageView(@token)
+            @mypageView.renderInit()
+        
+        # ログアウトボタン、対戦ボタンを表示
+        @$el.find('#logout_btn').show()
+        @$el.find('#game_btn').show()
 
     # 対戦パネルを活性化する
     activateGamePanel: ->
