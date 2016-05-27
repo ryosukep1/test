@@ -1,12 +1,13 @@
 .game_entry_panel_blk {
     position: absolute;
-    top: 50px;
+    top: 0px;
+    bottom: 0px;
     left: 0px;
     right: 0px;
     margin: auto;
     border: 1px solid #0055FF;
-    width: 500px;
-    height: 400px;
+    width: 880px;
+    height: 560px;
 
     .game_entry_back_btn_blk {
         position: absolute;

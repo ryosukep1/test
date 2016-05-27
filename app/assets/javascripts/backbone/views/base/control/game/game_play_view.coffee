@@ -14,11 +14,8 @@ class GameGui.Views.Base.Control.Game.GamePlayView extends Backbone.View
     initialize: (token) ->
         @token = token
         
-        # 対戦進行の最新情報
-        @obj_latest_game_progress = null
-        
-        # 対戦進行の遷移履歴リスト
-        @objs_game_progress_history = null
+        # ゲームの情報を保持するオブジェクト
+        @obj_game = null
         
         # 定期的に対戦の開始を確認する処理オブジェクト
         @interval_obj_check_game_start = null
@@ -49,48 +46,54 @@ class GameGui.Views.Base.Control.Game.GamePlayView extends Backbone.View
         $.extend(delegate_events_parameter, @delegate_events_base, @delegate_events_selector_card)
         this.delegateEvents(delegate_events_parameter)
     
-    # 定期的に対戦の開始を確認するように設定する（10秒間隔）
-    startIntervalCheckGameStart: ->
-        @interval_obj_check_game_start = setInterval =>
+    # 一定時間後に対戦の開始を確認するように設定する
+    makeReservationCheckGameStart: (m_seq)->
+        @interval_obj_check_game_start = setTimeout =>
             @checkGameStart()
-        , 10000
+        , m_seq
     
-    # 定期的に対戦の進行を確認するように設定する（20秒間隔）
-    startIntervalCheckGameProgress: ->
-        @interval_obj_check_game_progress = setInterval =>
+    # 一定時間後に対戦の進行を確認するように設定する
+    makeReservationCheckGameProgress: (m_seq)->
+        @interval_obj_check_game_progress = setTimeout =>
             @checkGameProgress()
-        , 20000
+        , m_seq
+    
+    # 一定時間後に対戦の進行を描画するように設定する
+    makeReservationDrawGameProgress: (m_seq) ->
+        @interval_obj_draw_game_progress = setTimeout =>
+            @drawGameProgress()
+        , m_seq
     
     # パネルを破棄する
     close: ->
         console.log('game play panel close')
         
         # 定期処理設定を全て停止する
-        @stopIntervalCheckGameStart()
-        @stopIntervalCheckGameProgress()
-        @stopIntervalDrawGameProgress()
+        @canselReservationCheckGameStart()
+        @canselReservationCheckGameProgress()
+        @canselReservationDrawGameProgress()
         
         @remove()
     
     # 定期的に対戦の開始を確認する設定を停止する
-    stopIntervalCheckGameStart: ->
-        clearInterval(@interval_obj_check_game_start)
+    canselReservationCheckGameStart: ->
+        clearTimeout(@interval_obj_check_game_start)
     
     # 定期的に対戦の進行を確認する設定を停止する
-    stopIntervalCheckGameProgress: ->
-        clearInterval(@interval_obj_check_game_progress)
+    canselReservationCheckGameProgress: ->
+        clearTimeout(@interval_obj_check_game_progress)
     
     # 定義的に対戦の進行を描画する設定を停止する
-    stopIntervalDrawGameProgress: ->
-        clearInterval(@interval_obj_draw_game_progress)
+    canselReservationDrawGameProgress: ->
+        clearTimeout(@interval_obj_draw_game_progress)
     
     # パネルの初期表示
     renderInit: ->
         console.log("game play panel render init")
         @$el.html @template
         
-        # 定期的に対戦の開始を確認するように設定する
-        @startIntervalCheckGameStart()
+        # 0m秒後に対戦の開始を確認するように設定する
+        @makeReservationCheckGameStart(0)
 
     
     # 対戦の開始を確認する
@@ -103,19 +106,49 @@ class GameGui.Views.Base.Control.Game.GamePlayView extends Backbone.View
             # 対戦状況を取得できた場合
             if true
                 
-                # 定期的に対戦の開始を確認することを止める
-                @stopIntervalCheckGameStart()
+                # ゲームオブジェクトを生成
+                @obj_game = new GameGui.Objs.Game('base data')
                 
                 # Now Loading をフェードアウト
-                @$el.find("#now_loading_img").hide('fade')
+                @$el.find("#game_play_now_loading_img").hide('fade')
+                
+                # 0m秒後に対戦の進行状況を確認するように設定する
+                @makeReservationCheckGameProgress(0)
+                
+                # 0m秒後に対戦の進行状況を描画するように設定する
+                @makeReservationDrawGameProgress(0)
     
     # 対戦の進行状況を確認する
     checkGameProgress: ->
         console.log('check game progress')
+        
+        # 対戦状況を取得する
+        if true
+            
+            # 対戦状況を取得できた場合
+            if true
+                
+                # ゲームの進行状況をアップデート
+                @obj_game.updateData('latest data')
+                
+                # 10000m秒後に対戦の進行状況を確認するように設定する
+                @makeReservationCheckGameProgress(10000)
+        
     
     # 対戦の進行状況を描画する
     drawGameProgress: ->
         console.log('draw game progress')
+        
+        # ゲームの表示情報を更新する
+        @obj_game.updateDrawData()
+        
+        # ゲームの表示情報を取得する
+        @obj_game.getDrawData()
+        
+        # ゲームの表示情報に合わせて画面を描画する
+        
+        # 0m秒後に対戦の進行状況を描画するように設定する
+        @makeReservationDrawGameProgress(0)
     
     # 提出するカードを選択する
     selectCard: (ev) ->

@@ -81,8 +81,8 @@ class GameGui.Views.Base.ControlView extends Backbone.View
     activateGamePanel: ->
         
         # ログアウトボタン、対戦ボタンをフェードアウト
-        #@$el.find('#logout_btn').hide('fade')
-        @$el.find('#game_btn').hide('fade')
+        @$el.find('#logout_btn').hide()
+        @$el.find('#game_btn').hide()
         
         # マイページパネルを閉じる
         @closeMypagePanel()

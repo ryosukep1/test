@@ -1,4 +1,5 @@
 window.GameGui = 
+    Objs: {}
     Models: {}
     Collections: {}
     Routers: {}
