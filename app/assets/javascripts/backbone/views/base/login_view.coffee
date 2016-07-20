@@ -25,20 +25,38 @@ class GameGui.Views.Base.LoginView extends Backbone.View
     # ログインを実施する
     execLogin: ->
         
+        # ログイン中画像を表示
+        @$el.find("#login_execting_img").show()
+        
+        # 入力フォームを非表示
+        @$el.find("#login_form").hide()
+
         # 入力フォームの入力値を取得
-        #val_login_id_input = $("#login_id_input").val()
         val_login_id_input = @$el.find("#login_id_input").val()
         val_password_input = @$el.find("#password_input").val()
         
         # アカウントに対して認証情報を登録する
-        if true
-        
-            # 認証情報を登録できた場合
-            if true
-                
+        sign_model = new GameGui.Models.Sign
+        input_params = 
+            account_id: val_login_id_input
+            password: val_password_input
+        sign_model.set(input_params)
+        sign_model.save()
+            .done ->
+                # 認証情報を登録できた場合
+                console.log('sign_model.save done')
+                console.log(sign_model.get('token'))
+
                 # 認証情報が更新されたよ と報告
                 #   第一引数：最新の認証トークン
                 App.mediator.trigger('finish:token:update', 'token_sample')
-            
-            # APIレスポンスがエラー系だった場合
-        
+
+            .fail (jqXHR, textStatus, errorThrown) ->
+                # APIレスポンスがエラー系だった場合
+                console.log('sign_model.save fail')
+                
+                # ログイン中画像を非表示
+                @$el.find("#login_execting_img").hide()
+                
+                # 入力フォームを表示
+                @$el.find("#login_form").show()

@@ -1,4 +1,5 @@
-form
-    input#login_id_input.login_id_input_blk(type='text', maxlength='32')
-    input#password_input.password_input_blk(type='text', maxlength='32')
-    img#login_btn.login_btn_blk(src="/thumbs.jpg")
+form#login_form.login_blk
+    input#login_id_input.login_id_input(type='text', maxlength='32', placeholder='アカウントID')
+    input#password_input.password_input(type='text', maxlength='32', placeholder='パスワード')
+    img#login_btn.login_btn_img(src="/thumbs.jpg")
+img#login_execting_img.now_loading_img(src="/thumbs.jpg")

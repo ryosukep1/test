@@ -129,6 +129,8 @@ GEM
     rdoc (4.2.2)
       json (~> 1.4)
     ref (2.0.0)
+    responders (2.2.0)
+      railties (>= 4.2.0, < 5.1)
     ruby_parser (3.8.1)
       sexp_processor (~> 4.1)
     sass (3.4.21)
@@ -186,6 +188,7 @@ DEPENDENCIES
   mysql2 (~> 0.3.20)
   rails (= 4.2.5)
   rails-backbone
+  responders (~> 2.0)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring
