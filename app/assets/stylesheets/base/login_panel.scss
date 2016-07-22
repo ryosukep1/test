@@ -57,6 +57,15 @@
         }
     }
     
+    .error_message_img {
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+        width: 320px;
+        height: 320px;
+        display: none;
+    }
+    
     .now_loading_img {
         position: absolute;
         opacity: 0.5;

@@ -46,19 +46,19 @@ class GameGui.Views.Base.Control.Game.GamePlayView extends Backbone.View
         $.extend(delegate_events_parameter, @delegate_events_base, @delegate_events_selector_card)
         this.delegateEvents(delegate_events_parameter)
     
-    # 一定時間後に対戦の開始を確認するように設定する
+    # 指定時間後に対戦の開始を確認するように設定する
     makeReservationCheckGameStart: (m_seq)->
         @interval_obj_check_game_start = setTimeout =>
             @checkGameStart()
         , m_seq
     
-    # 一定時間後に対戦の進行を確認するように設定する
+    # 指定時間後に対戦の進行を確認するように設定する
     makeReservationCheckGameProgress: (m_seq)->
         @interval_obj_check_game_progress = setTimeout =>
             @checkGameProgress()
         , m_seq
     
-    # 一定時間後に対戦の進行を描画するように設定する
+    # 指定時間後に対戦の進行を描画するように設定する
     makeReservationDrawGameProgress: (m_seq) ->
         @interval_obj_draw_game_progress = setTimeout =>
             @drawGameProgress()
@@ -75,15 +75,15 @@ class GameGui.Views.Base.Control.Game.GamePlayView extends Backbone.View
         
         @remove()
     
-    # 定期的に対戦の開始を確認する設定を停止する
+    # 対戦の開始を確認する設定を停止する
     canselReservationCheckGameStart: ->
         clearTimeout(@interval_obj_check_game_start)
     
-    # 定期的に対戦の進行を確認する設定を停止する
+    # 対戦の進行を確認する設定を停止する
     canselReservationCheckGameProgress: ->
         clearTimeout(@interval_obj_check_game_progress)
     
-    # 定義的に対戦の進行を描画する設定を停止する
+    # 対戦の進行を描画する設定を停止する
     canselReservationDrawGameProgress: ->
         clearTimeout(@interval_obj_draw_game_progress)
     
