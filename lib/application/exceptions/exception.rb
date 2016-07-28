@@ -51,5 +51,40 @@ module Application
                 super(error_code, message)
             end
         end
+
+        class ErrCode005Error < ErrCodeCommonError
+            def initialize(message = '')
+                error_code = "API_ERR_CODE_005"
+                super(error_code, message)
+            end
+        end
+
+        class ErrCode006Error < ErrCodeCommonError
+            def initialize(message = '')
+                error_code = "API_ERR_CODE_006"
+                super(error_code, message)
+            end
+        end
+
+        class ErrCode007Error < ErrCodeCommonError
+            def initialize(message = '')
+                error_code = "API_ERR_CODE_007"
+                super(error_code, message)
+            end
+        end
+
+        class ErrCode008Error < ErrCodeCommonError
+            def initialize(message = '')
+                error_code = "API_ERR_CODE_008"
+                super(error_code, message)
+            end
+        end
+
+        class ErrCode009Error < ErrCodeCommonError
+            def initialize(message = '')
+                error_code = "API_ERR_CODE_009"
+                super(error_code, message)
+            end
+        end
     end
 end

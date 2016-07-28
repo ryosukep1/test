@@ -7,9 +7,20 @@ class Api::SignsController < Api::Base
             token: "stub_token",
         }
         
-        raise Application::Exceptions::ErrCode000Error.new
+        #raise Application::Exceptions::ErrCode000Error.new
         
-        sleep 3
+        sleep 1
+        
+        render json: @result
+    end
+    
+    # ログアウトAPI
+    def delete
+        puts "------params: #{params}"
+        
+        @result = {}
+        
+        raise Application::Exceptions::ErrCode004Error.new
         
         render json: @result
     end

@@ -20,18 +20,26 @@ class GameGui.Views.Base.Control.MypageView extends Backbone.View
         @$el.html @template
         
         # アカウント情報を取得する
-        if true
-            
-            # アカウント情報を取得できた場合
-            if true
+        accounts = new GameGui.Collections.AccountsCollection
+        accounts.fetchByToken(@token)
+            .done =>
+                # アカウント情報を取得できた場合
+                account = accounts.first()
                 
                 # マイページパネルにアカウント情報を反映する
-                @outputAccountInfo()
+                @outputAccountInfo(account)
                 
                 # Now Loading をフェードアウト
-                @$el.find("#now_loading_img").hide('fade')
+                @$el.find("#load_account_info_executing_img").hide('fade')
+
+            .fail (jqXHR, textStatus, errorThrown) =>
+                # APIレスポンスがエラー系だった場合
+                console.log('accounts_collection.fetch fail')
+                
+                # トークンが失効されたよ と報告
+                App.mediator.trigger('invalid:token:authenticate')
     
     # アカウント情報をパネルに出力する
-    outputAccountInfo: ->
+    outputAccountInfo: (account_model) ->
         
-        @$el.find("#account_id_text").text('account_id_sample')
+        @$el.find("#account_id_text").text(account_model.get('user_name'))

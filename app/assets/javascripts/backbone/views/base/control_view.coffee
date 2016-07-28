@@ -20,8 +20,8 @@ class GameGui.Views.Base.ControlView extends Backbone.View
         # 対戦のエントリー中断報告を監視する
         @listenTo App.mediator, 'abort:game:entry',  =>
 
-            # マイページパネルを活性化する
-            @activateMyPagePanel()
+            # 適切なパネルを活性化する
+            @activeAppropriatePanel()
     
     # パネルを破棄する
     close: ->
@@ -53,13 +53,45 @@ class GameGui.Views.Base.ControlView extends Backbone.View
         console.log('control panel renderInit')
         @$el.html @template
         
-        # アカウントが対戦状態である場合
-        if false
-            # 対戦パネルを活性化する
-            @activateGamePanel()
-        else
-            # マイページパネルを開く
-            @activateMyPagePanel()
+        # 適切なパネルを活性化する
+        @activeAppropriatePanel()
+
+    
+    # 適切なパネルを活性化する
+    activeAppropriatePanel: ->
+        
+        # 適切なパネルを判定中画像を表示
+        @$el.find("#activate_panel_executing_img").show()
+
+        # アカウント情報を取得する
+        accounts = new GameGui.Collections.AccountsCollection
+        accounts.fetchByToken(@token)
+            .done =>
+                # アカウント情報を取得できた場合
+                console.log('accounts_collection.fetch success')
+                account = accounts.first()
+                
+                # アカウントが対戦をしていない場合
+                if account.isGameNotPlaying()
+                    
+                    # マイページパネルを開く
+                    @activateMyPagePanel()
+                
+                else
+                    # 対戦パネルを活性化する
+                    @activateGamePanel()
+                
+                # 適切なパネルを判定中画像を非表示
+                @$el.find("#activate_panel_executing_img").hide()
+                
+            .fail (jqXHR, textStatus, errorThrown) =>
+                # APIレスポンスがエラー系だった場合
+                console.log('accounts_collection.fetch fail')
+                
+                # トークンが失効されたよ と報告
+                App.mediator.trigger('invalid:token:authenticate')
+                
+        
     
     # マイページパネルを活性化する
     activateMyPagePanel: ->
@@ -98,12 +130,5 @@ class GameGui.Views.Base.ControlView extends Backbone.View
     execLogout: ->
         console.log('exec logout')
         
-        # アカウントに対する認証情報を破棄する
-        if true
-            
-            # 認証情報を破棄できた場合
-            if true
-                
-                # 認証情報が破棄されたよ と報告
-                #   第一引数：最新の認証トークン
-                App.mediator.trigger('finish:token:delete')
+        # 認証情報の破棄要求を受理したよ と報告
+        App.mediator.trigger('requested:sign:delete')

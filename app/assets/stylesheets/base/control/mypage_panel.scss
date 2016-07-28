@@ -4,29 +4,57 @@
     left: 0px;
     right: 0px;
     margin: auto;
+    background-color: #555555;
     border: 1px solid #0000FF;
     width: 920px;
     height: 560px;
 
-    .now_loading_blk {
+    .load_account_info_executing_img {
         position: absolute;
         width: 920px;
         height: 560px;
     }
+    
+    .mypage_panel_title_blk {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        margin: auto;
+        width: 900px;
+        height: 20px;
+        
+        p {
+            text-align: center;
+            color: #FFFFFF;
+            font-size: large;
+            font-family: fantasy;
+        }
+    }
 
-    .account_info_table_blk {
+    .account_info_table {
         position: absolute;
         bottom: 4px;
         left: 0px;
         right: 0px;
         margin: auto;
+        background-color: #000000;
         border: 1px solid #00FF00;
         width: 880px;
-        height: 520px;
+        height: 500px;
         
-        .account_id_blk {
-            position: absolute;
-            margin: auto;
+        th {
+            width: 100px;
+            
+            p {
+                color: #FFFFFF;
+            }
+        }
+        
+        td {
+            p {
+                color: #FFFFFF;
+            }
         }
     }
 }

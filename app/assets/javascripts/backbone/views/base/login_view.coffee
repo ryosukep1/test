@@ -55,11 +55,7 @@ class GameGui.Views.Base.LoginView extends Backbone.View
         
         # アカウントに対して認証情報を登録する
         sign_model = new GameGui.Models.Sign
-        input_params = 
-            account_id: val_login_id_input
-            password: val_password_input
-        sign_model.set(input_params)
-        sign_model.save()
+        sign_model.fetchByAccountIdAndPassword(val_login_id_input, val_password_input)
             .done =>
                 # 認証情報を登録できた場合
                 console.log('sign_model.save done')
@@ -67,7 +63,7 @@ class GameGui.Views.Base.LoginView extends Backbone.View
 
                 # 認証情報が更新されたよ と報告
                 #   第一引数：最新の認証トークン
-                App.mediator.trigger('finish:token:update', 'token_sample')
+                App.mediator.trigger('finish:sign:update', sign_model)
 
             .fail (jqXHR, textStatus, errorThrown) =>
                 # APIレスポンスがエラー系だった場合

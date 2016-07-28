@@ -1,6 +1,7 @@
 # 管理対象
 #   対戦エントリーパネル
 #   対戦プレイパネル
+#   対戦結果パネル
 class GameGui.Views.Base.Control.GameView extends Backbone.View
 
     el: '#game_panel'
